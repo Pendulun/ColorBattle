@@ -90,13 +90,14 @@ public class Tile extends JPanel {
         g2.setColor(cor);
     }
 
+    //pinta um quadrado especifico no modo "paint"
     public void pintaQuadrado(int x, int y) {
-        Point p = MouseInfo.getPointerInfo().getLocation();
         int x1 = (int) x;
         int y1 = (int) y;
         g2.fillRect(x1 - (int) (escala / 2), y1 - (int) (escala / 2), this.escala, this.escala);
     }
 
+    //gera uma cor aleatória
     public void geraCorAleatoria() {
         int cor1 = (int) (Math.random() * 12);
         switch (cor1) {
@@ -143,6 +144,7 @@ public class Tile extends JPanel {
 
     }
 
+    //gera uma cor definida
     public void geraCor(int cor1) {
         switch (cor1) {
             case 0://verde escuro
@@ -167,16 +169,16 @@ public class Tile extends JPanel {
                 g2.setColor(new Color(255, 153, 51));
                 break;
             case 7://castanho
-                g2.setColor(new Color(151, 52, 0));
+                g2.setColor(new Color(151, 102, 0));
                 break;
             case 8://areia
-                g2.setColor(new Color(58, 81, 96));
+                g2.setColor(new Color(213, 190, 72));
                 break;
-            case 9://deserto
-                g2.setColor(new Color(58, 81, 96));
+            case 9://roxo
+                g2.setColor(new Color(58, 0, 96));
                 break;
             case 10://cinza leve
-                g2.setColor(new Color(58, 2, 91));
+                g2.setColor(new Color(122, 113, 132));
                 break;
             case 11://branco
                 g2.setColor(new Color(255, 255, 255));
@@ -196,229 +198,209 @@ public class Tile extends JPanel {
 //        }
 //        return mapa;
 //    }
+    //confere se é possivel tomar o lugar do quadrado adjacente no modo batalha
     public boolean confereOrdem(int cor1, int cor2, boolean d) {
+        // o "d" identifica se o branco é muito fácil de tomar ou não (false/true)
         int op = 0;//1 - ganha, 2 - perde
-        double prob = 0.0;
+        double prob = 5.0;
         switch (cor1) {
             case 0://verde escuro
-                if (cor2 == 1 || cor2 == 2) {
+                if (cor2 == 1 || cor2 == 2 || cor2 == 3 || cor2 == 4) {
                     prob = 5.0;
-                } else if (cor2 == 3 || cor2 == 4) {
+                } else if (cor2 >= 5 && cor2 <= 8) {
                     prob = 4.5;
-                } else if (cor2 >= 5 && cor2 <= 7) {
+                } else if (cor2 == 9 || cor2 == 10) {
                     prob = 4.0;
-                } else if (cor2 == 8 || cor2 == 9) {
-                    prob = 3.5;
-                } else if (cor2 == 10) {
-                    prob = 3.0;
                 } else if (cor2 == 11) {
-                    if (d) {
-                        prob = 2.5;
-                    } else {
+                    if (!d) {
                         prob = 10.0;
+                    } else {
+                        prob = 3.5;
                     }
                 }
                 break;
             case 1://verde claro
-                if (cor2 == 2 || cor2 == 3) {
+                if (cor2 == 2 || cor2 == 3 || cor2 == 4 || cor2 == 5) {
                     prob = 5.0;
-                } else if (cor2 == 4 || cor2 == 5) {
+                } else if (cor2 >= 6 && cor2 <= 9) {
                     prob = 4.5;
-                } else if (cor2 >= 6 && cor2 <= 8) {
+                } else if (cor2 == 10 || cor2 == 0) {
                     prob = 4.0;
-                } else if (cor2 == 9 || cor2 == 10) {
-                    prob = 3.5;
                 } else if (cor2 == 11) {
-                    if (d) {
-                        prob = 3.0;
-                    } else {
+                    if (!d) {
                         prob = 10.0;
+                    } else {
+                        prob = 3.5;
                     }
                 } else if (cor2 == 0) {
                     prob = 5.0;
                 }
                 break;
             case 2://verde opaco
-                if (cor2 == 3 || cor2 == 4) {
+                if (cor2 == 3 || cor2 == 4 || cor2 == 5 || cor2 == 6) {
                     prob = 5.0;
-                } else if (cor2 == 5 || cor2 == 6) {
+                } else if (cor2 >= 7 && cor2 <= 10) {
                     prob = 4.5;
-                } else if (cor2 >= 7 && cor2 <= 9) {
-                    prob = 4.0;
-                } else if (cor2 == 10 || cor2 == 11) {
-                    prob = 3.5;
-                    if (cor2 == 11) {
-                        if (!d) {
-                            prob = 10.0;
-                        }
-                    }
                 } else if (cor2 == 0 || cor2 == 1) {
-                    prob = 5.0;
+                    prob = 4.0;
+
+                } else if (cor2 == 11) {
+                    if (!d) {
+                        prob = 10.0;
+                    } else {
+                        prob = 3.5;
+                    }
                 }
                 break;
             case 3://azul escuro
-                if (cor2 == 4 || cor2 == 5) {
+                if (cor2 == 4 || cor2 == 5 || cor2 == 6 || cor2 == 7) {
                     prob = 5.0;
-                } else if (cor2 == 6 || cor2 == 7) {
-                    prob = 4.5;
                 } else if (cor2 >= 8 && cor2 <= 10) {
-                    prob = 4.0;
+                    prob = 4.5;
                 } else if (cor2 == 11) {
-                    if (d) {
-                        prob = 3.5;
-                    } else {
+                    if (!d) {
                         prob = 10.0;
+                    } else {
+                        prob = 4.5;
                     }
                 } else if (cor2 == 1 || cor2 == 2) {
-                    prob = 5.0;
-                } else if (cor2 == 0) {
-                    prob = 5.5;
+                    prob = 3.5;
                 }
                 break;
             case 4://azul mais ou menos
-                if (cor2 == 5 || cor2 == 6) {
+                if (cor2 == 5 || cor2 == 6 || cor2 == 7 || cor2 == 8) {
                     prob = 5.0;
-                } else if (cor2 == 7 || cor2 == 8) {
-                    prob = 4.5;
                 } else if (cor2 >= 9 && cor2 <= 11) {
-                    prob = 4.0;
+                    prob = 4.5;
                     if (cor2 == 11) {
                         if (!d) {
                             prob = 10.0;
+                        } else {
+                            prob = 4.5;
                         }
                     }
                 } else if (cor2 == 2 || cor2 == 3) {
-                    prob = 5.0;
+                    prob = 3.5;
                 } else if (cor2 == 0 || cor2 == 1) {
-                    prob = 5.5;
+                    prob = 4.0;
                 }
                 break;
             case 5://azul claro
-                if (cor2 == 6 || cor2 == 7) {
+                if (cor2 == 6 || cor2 == 7 || cor2 == 8 || cor2 == 9) {
                     prob = 5.0;
-                } else if (cor2 == 8 || cor2 == 9) {
-                    prob = 4.5;
                 } else if (cor2 == 10 || cor2 == 11) {
-                    prob = 4.0;
+                    prob = 4.5;
                     if (cor2 == 11) {
                         if (!d) {
                             prob = 10.0;
+                        } else {
+                            prob = 4.5;
                         }
                     }
-                } else if (cor2 == 3 || cor2 == 4) {
-                    prob = 5.0;
-                } else if (cor2 == 1 || cor2 == 2) {
-                    prob = 5.5;
-                } else if (cor2 == 0) {
-                    prob = 6.0;
+                } else if (cor2 == 2 || cor2 == 3) {
+                    prob = 4.0;
+                } else if (cor2 == 1 || cor2 == 0) {
+                    prob = 4.5;
+                } else if (cor2 == 4) {
+                    prob = 3.5;
                 }
                 break;
             case 6://laranja
-                if (cor2 == 7 || cor2 == 8) {
+                if (cor2 == 7 || cor2 == 8 || cor2 == 9 || cor2 == 10) {
                     prob = 5.0;
-                } else if (cor2 == 9 || cor2 == 10) {
-                    prob = 4.5;
                 } else if (cor2 == 11) {
-                    if (d) {
-                        prob = 4.0;
-                    } else {
+                    if (!d) {
                         prob = 10.0;
+                    } else {
+                        prob = 4.5;
                     }
-                } else if (cor2 == 4 || cor2 == 5) {
-                    prob = 5.0;
-                } else if (cor2 == 2 || cor2 == 3) {
-                    prob = 5.5;
-                } else if (cor2 == 0 || cor2 == 1) {
-                    prob = 6.0;
+                } else if (cor2 == 3 || cor2 == 4) {
+                    prob = 4.0;
+                } else if (cor2 == 5) {
+                    prob = 3.5;
+                } else if (cor2 == 0 || cor2 == 1 || cor2 == 2) {
+                    prob = 4.5;
                 }
                 break;
             case 7://castanho
-                if (cor2 == 8 || cor2 == 9) {
+                if (cor2 == 8 || cor2 == 9 || cor2 == 10) {
                     prob = 5.0;
-                } else if (cor2 == 10 || cor2 == 11) {
-                    prob = 4.5;
-                    if (cor2 == 11) {
-                        if (!d) {
-                            prob = 10.0;
-                        }
+                } else if (cor2 == 11) {
+                    if (!d) {
+                        prob = 10.0;
+                    } else {
+                        prob = 5.0;
                     }
-                } else if (cor2 == 5 || cor2 == 6) {
-                    prob = 5.0;
-                } else if (cor2 == 4 || cor2 == 4) {
-                    prob = 5.5;
-                } else if (cor2 >= 0 && cor2 <= 2) {
-                    prob = 6.0;
+                } else if (cor2 == 6) {
+                    prob = 3.5;
+                } else if (cor2 == 4 || cor2 == 5) {
+                    prob = 4.0;
+                } else if (cor2 >= 0 && cor2 <= 3) {
+                    prob = 4.5;
                 }
                 break;
             case 8://areia
-                if (cor2 == 9 || cor2 == 10) {
+                if (cor2 == 9 || cor2 == 10 || cor2 == 0) {
                     prob = 5.0;
                 } else if (cor2 == 11) {
-                    if (d) {
-                        prob = 4.5;
+                    if (!d) {
+                        prob = 10.0;
                     } else {
-                        prob = 10;
+                        prob = 5.0;
                     }
-                } else if (cor2 == 6 || cor2 == 7) {
-                    prob = 5.0;
-                } else if (cor2 == 4 || cor2 == 5) {
-                    prob = 5.5;
-                } else if (cor2 >= 1 && cor2 <= 3) {
-                    prob = 6.0;
-                } else if (cor2 == 0) {
-                    prob = 6.5;
+                } else if (cor2 == 7) {
+                    prob = 3.5;
+                } else if (cor2 == 5 || cor2 == 6) {
+                    prob = 4.0;
+                } else if (cor2 >= 1 && cor2 <= 4) {
+                    prob = 4.5;
                 }
                 break;
             case 9://deserto
-                if (cor2 == 10 || cor2 == 11) {
+                if (cor2 == 10 || cor2 == 0 || cor2 == 1) {
                     prob = 5.0;
-                    if (cor2 == 11) {
-                        if (!d) {
-                            prob = 10.0;
-                        }
+                } else if (cor2 == 11) {
+                    if (!d) {
+                        prob = 10.0;
+                    } else {
+                        prob = 5.0;
                     }
-                } else if (cor2 == 7 || cor2 == 8) {
-                    prob = 5.0;
-                } else if (cor2 == 5 || cor2 == 6) {
-                    prob = 5.5;
-                } else if (cor2 >= 2 && cor2 <= 4) {
-                    prob = 6.0;
-                } else if (cor2 == 0 || cor2 == 1) {
-                    prob = 6.5;
+                } else if (cor2 == 8) {
+                    prob = 3.5;
+                } else if (cor2 == 6 || cor2 == 7) {
+                    prob = 4.0;
+                } else if (cor2 >= 2 && cor2 <= 5) {
+                    prob = 4.5;
                 }
                 break;
             case 10://cinza leve
                 if (cor2 == 11) {
-                    if (d) {
-                        prob = 5.0;
-                    } else {
+                    if (!d) {
                         prob = 10.0;
+                    } else {
+                        prob = 5.0;
                     }
-                } else if (cor2 == 8 || cor2 == 9) {
+                } else if (cor2 == 9) {
+                    prob = 3.5;
+                } else if (cor2 == 7 || cor2 == 7) {
+                    prob = 4.0;
+                } else if (cor2 >= 3 && cor2 <= 6) {
+                    prob = 4.5;
+                } else if (cor2 == 0 || cor2 == 1 || cor2 == 2) {
                     prob = 5.0;
-                } else if (cor2 == 6 || cor2 == 7) {
-                    prob = 5.5;
-                } else if (cor2 >= 3 && cor2 <= 5) {
-                    prob = 6.0;
-                } else if (cor2 == 1 || cor2 == 2) {
-                    prob = 6.5;
-                } else if (cor2 == 0) {
-                    prob = 7.0;
                 }
                 break;
 
             case 11://branco
                 if (d) {
-                    if (cor2 == 9 || cor2 == 10) {
+                    if (cor2 == 10) {
+                        prob = 3.5;
+                    } else if (cor2 == 8 || cor2 == 9) {
+                        prob = 4.0;
+                    } else if (cor2 >= 4 && cor2 <= 7) {
+                        prob = 4.5;
+                    } else if (cor2 == 0 || cor2 == 1 || cor2 == 2 || cor2 == 3) {
                         prob = 5.0;
-                    } else if (cor2 == 7 || cor2 == 8) {
-                        prob = 5.5;
-                    } else if (cor2 >= 4 && cor2 <= 6) {
-                        prob = 6.0;
-                    } else if (cor2 == 2 || cor2 == 3) {
-                        prob = 6.5;
-                    } else if (cor2 == 0 || cor2 == 1) {
-                        prob = 7.0;
                     }
                 } else {
                     return false;
@@ -435,19 +417,14 @@ public class Tile extends JPanel {
         }
     }
 
-    public void comecaBatalha(int c) {
-        boolean d;
-        if (c == 1) {
-            d = false;
-        } else {
-            d = true;
-        }
+    //inicia o modo batalha
+    public void comecaBatalha(boolean d) {
         for (int i = 0; i < nV; i++) {
             for (int u = 0; u < nH; u++) {
                 int ver = 0;
                 while (ver == 0) {
                     try {
-                        int ale = (int) (Math.random() * 8);
+                        int ale = (int) (Math.random() * 8);//um dos quadrados adjacentes
                         boolean op = true;
                         switch (ale) {
                             case 0:
@@ -458,6 +435,8 @@ public class Tile extends JPanel {
                                         g2.fillRect((u - 1) * tileWidth, (i - 1) * tileHeight, tileWidth, tileHeight);
                                         matrizmapa[u - 1][i - 1] = matrizmapa[u][i];
                                     }
+                                } else {
+                                    ver = 0;
                                 }
                                 break;
                             case 1:
@@ -468,6 +447,8 @@ public class Tile extends JPanel {
                                         g2.fillRect(u * tileWidth, (i - 1) * tileHeight, tileWidth, tileHeight);
                                         matrizmapa[u][i - 1] = matrizmapa[u][i];
                                     }
+                                } else {
+                                    ver = 0;
                                 }
                                 break;
                             case 2:
@@ -478,6 +459,8 @@ public class Tile extends JPanel {
                                         g2.fillRect((u + 1) * tileWidth, (i - 1) * tileHeight, tileWidth, tileHeight);
                                         matrizmapa[u + 1][i - 1] = matrizmapa[u][i];
                                     }
+                                } else {
+                                    ver = 0;
                                 }
                                 break;
                             case 3:
@@ -488,6 +471,8 @@ public class Tile extends JPanel {
                                         g2.fillRect((u - 1) * tileWidth, i * tileHeight, tileWidth, tileHeight);
                                         matrizmapa[u - 1][i] = matrizmapa[u][i];
                                     }
+                                } else {
+                                    ver = 0;
                                 }
                                 break;
                             case 4:
@@ -498,6 +483,8 @@ public class Tile extends JPanel {
                                         g2.fillRect((u + 1) * tileWidth, i * tileHeight, tileWidth, tileHeight);
                                         matrizmapa[u + 1][i] = matrizmapa[u][i];
                                     }
+                                } else {
+                                    ver = 0;
                                 }
                                 break;
                             case 5:
@@ -508,6 +495,8 @@ public class Tile extends JPanel {
                                         g2.fillRect((u - 1) * tileWidth, (i + 1) * tileHeight, tileWidth, tileHeight);
                                         matrizmapa[u - 1][i + 1] = matrizmapa[u][i];
                                     }
+                                } else {
+                                    ver = 0;
                                 }
                                 break;
                             case 6:
@@ -518,6 +507,8 @@ public class Tile extends JPanel {
                                         g2.fillRect(u * tileWidth, (i + 1) * tileHeight, tileWidth, tileHeight);
                                         matrizmapa[u][i + 1] = matrizmapa[u][i];
                                     }
+                                } else {
+                                    ver = 0;
                                 }
                                 break;
                             case 7:
@@ -528,6 +519,8 @@ public class Tile extends JPanel {
                                         g2.fillRect((u + 1) * tileWidth, (i + 1) * tileHeight, tileWidth, tileHeight);
                                         matrizmapa[u + 1][i + 1] = matrizmapa[u][i];
                                     }
+                                } else {
+                                    ver = 0;
                                 }
                                 break;
                             default:
@@ -543,11 +536,13 @@ public class Tile extends JPanel {
         }
     }
 
+    //pinta o painel de branco
     public void zeraPanel(Tile panel, Color cor) {
         g2.setColor(cor);
         g2.fillRect(0, 0, panel.getWidth(), panel.getHeight());
     }
 
+    //tenta desenhar uma neve no topo da montanha
     public void desenhaNeve(int vH, int vV) {
         geraCor(11);
         g2.fillRect(((vH - 1) * tileWidth), ((vV - 1) * tileHeight), tileWidth * 3, tileHeight * 3);
@@ -557,6 +552,7 @@ public class Tile extends JPanel {
         g2.fillRect((vH * tileWidth), ((vV + 2) * tileHeight), tileWidth, tileHeight);
     }
 
+    //desenha uma montanha
     public void desenhaMontanhaComNeve(int nH, int nV) {
         geraCor(7);
         int vH = (int) (Math.random() * nH);
@@ -569,34 +565,62 @@ public class Tile extends JPanel {
         desenhaNeve(vH, vV);
     }
 
-    public void geraMatriz(int a) {
+    public void escolheAleatorio(int cor, int nH, int nV) {
+        boolean cont = true;
+        while (cont) {
+            int h = (int) (Math.random() * (nH - 1));
+            int v = (int) (Math.random() * (nV - 1));
+            if (matrizmapa[h][v] == 11) {
+                matrizmapa[h][v] = cor;
+                cont = false;
+            }
+        }
+
+    }
+
+    //gera uma matriz aleatoria ou prepara uma ja definida
+    public void geraMatriz(boolean a) {
         matrizmapa = new int[nH][nV];
-        if (a == 0) {
+        if (a) {
             for (int x = 0; x < nH; x++) {
                 for (int y = 0; y < nV; y++) {
                     matrizmapa[x][y] = (int) (Math.random() * 12);
                 }
             }
-        }
-        if (a == 1) {
+        } else {
             for (int x = 0; x < nH; x++) {
                 for (int y = 0; y < nV; y++) {
                     matrizmapa[x][y] = 11;
                 }
             }
-            matrizmapa[0][0] = 0;
-            matrizmapa[0][nV - 5] = 1;
-            matrizmapa[0][(int) (nV / 2)] = 7;
-            matrizmapa[nH - 1][0] = 2;
-            matrizmapa[nH - 1][nV - 5] = 3;
-            matrizmapa[nH - 1][(int) (nV / 2)] = 8;
-            matrizmapa[(int) (nH / 2)][0] = 4;
-            matrizmapa[(int) (nH / 2)][nV - 5] = 5;
-            matrizmapa[(int) (nH / 2)][(int) (nV / 2)] = 6;
+            // isso gera as cores em lugares aleatórios
+            escolheAleatorio(0, nH, nV);
+            escolheAleatorio(1, nH, nV);
+            escolheAleatorio(2, nH, nV);
+            escolheAleatorio(3, nH, nV);
+            escolheAleatorio(4, nH, nV);
+            escolheAleatorio(5, nH, nV);
+            escolheAleatorio(6, nH, nV);
+            escolheAleatorio(7, nH, nV);
+            escolheAleatorio(8, nH, nV);
+            escolheAleatorio(9, nH, nV);
+            escolheAleatorio(10, nH, nV);
+
+            //Isso aqui é pra gerar nos cantos
+//            matrizmapa[0][0] = 0;
+//            matrizmapa[0][nV - 1] = 1;
+//            matrizmapa[0][(int) (nV / 2)] = 7;
+//            matrizmapa[nH - 1][0] = 2;
+//            matrizmapa[nH - 1][nV - 1] = 3;
+//            matrizmapa[nH - 1][(int) (nV / 2)] = 8;
+//            matrizmapa[(int) (nH / 2)][0] = 4;
+//            matrizmapa[(int) (nH / 2)][nV - 1] = 5;
+//            matrizmapa[(int) (nH / 2)][(int) (nV / 2)] = 6;
         }
     }
 
-    public void desenhaGrid(Tile panel, int a) {
+    //define quantos quadrados terá a tela de acordo com os tamanhos definidos
+    public void desenhaGrid(Tile panel, boolean a) {
         zeraPanel(panel, Color.WHITE);
         nH = panel.getWidth() / tileWidth;
         nV = panel.getHeight() / tileHeight;
