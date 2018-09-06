@@ -5,10 +5,18 @@
  */
 package telas;
 
+import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import testestile.Tile;
 
@@ -26,7 +34,8 @@ public class TelaGrid extends javax.swing.JFrame {
         jPanel1.setGra(jPanel1.getGraphics());
         jPanel1.setG2();
         jPanel1.zeraPanel(jPanel1, Color.WHITE);
-        jNumSimulados.setVisible(false);
+        jSalvar.setVisible(false);
+        jGerarAleatorio.setVisible(false);
     }
 
     boolean pintura = false, op1 = true;
@@ -65,15 +74,17 @@ public class TelaGrid extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jVEscala = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        jSimular = new javax.swing.JButton();
+        jGerarAleatorio = new javax.swing.JButton();
+        jLimpar = new javax.swing.JButton();
+        jGerarSeparado = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jVezesSimular = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
-        jNumSimulados = new javax.swing.JLabel();
+        jSalvar = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        jTempo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -392,31 +403,31 @@ public class TelaGrid extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 255));
 
-        jButton4.setText("Simular");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jSimular.setText("Simular");
+        jSimular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jSimularActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Gerar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jGerarAleatorio.setText("Gerar");
+        jGerarAleatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jGerarAleatorioActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Limpar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jLimpar.setText("Limpar");
+        jLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jLimparActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Gerar separado");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        jGerarSeparado.setText("Gerar separado");
+        jGerarSeparado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                jGerarSeparadoActionPerformed(evt);
             }
         });
 
@@ -426,23 +437,28 @@ public class TelaGrid extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(204, 204, 255));
 
-        jNumSimulados.setText("jLabel17");
+        jSalvar.setText("Salvar imagem");
+        jSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSalvarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jNumSimulados)
+                .addContainerGap()
+                .addComponent(jSalvar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jNumSimulados)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addComponent(jSalvar)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jButton6.setText("Gerar Mapa");
@@ -452,61 +468,68 @@ public class TelaGrid extends javax.swing.JFrame {
             }
         });
 
+        jLabel17.setText("Tempo (ms):");
+
+        jTempo.setText("75");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel16)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jVezesSimular))
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel4Layout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(jLabel16)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jVezesSimular))
+                                    .addComponent(jGerarAleatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                            .addGap(31, 31, 31)
-                                            .addComponent(jButton4)))
-                                    .addGap(19, 19, 19)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton5)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 18, Short.MAX_VALUE))
+                                    .addGap(31, 31, 31)
+                                    .addComponent(jSimular)))
+                            .addGap(19, 19, 19)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addComponent(jButton6)
+                                    .addGap(0, 36, Short.MAX_VALUE))
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addComponent(jLabel17)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTempo)))
+                            .addComponent(jGerarSeparado)
+                            .addComponent(jLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(10, 10, 10))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(jGerarAleatorio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addComponent(jGerarSeparado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(jLimpar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jTempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(jVezesSimular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
+                .addComponent(jSimular)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36))
@@ -521,7 +544,7 @@ public class TelaGrid extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,24 +553,37 @@ public class TelaGrid extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jGerarAleatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGerarAleatorioActionPerformed
         if (jPanel1.getTileHeight() != 0 && jPanel1.getTileWidth() != 0) {
             jPanel1.setGra(jPanel1.getGraphics());
             jPanel1.setG2();
+            Tile.k = 1;
             op1 = true;
+            jPanel1.getArrayTimes().clear();
             jPanel1.desenhaGrid(jPanel1, op1);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jGerarAleatorioActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jPanel1.setTileHeight(Integer.parseInt(jVertical.getText()));
-        jPanel1.setTileWidth(Integer.parseInt(jHorizontal.getText()));
+        try {
+            int vertical = Integer.parseInt(jVertical.getText());
+            int horizontal = Integer.parseInt(jHorizontal.getText());
+            if (vertical > 0 && horizontal > 0) {
+                jPanel1.setTileHeight(vertical);
+                jPanel1.setTileWidth(horizontal);
+                JOptionPane.showMessageDialog(null, "Atualizado com sucesso!", "Aviso!",JOptionPane.DEFAULT_OPTION );
+            }else{
+                JOptionPane.showMessageDialog(null, "Não foi possível atualizar! Confira os valores!", "Atenção!", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível atualizar! Confira os valores!", "Atenção!", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jPinturaPropriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPinturaPropriaActionPerformed
@@ -674,40 +710,80 @@ public class TelaGrid extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jHorizontalActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLimparActionPerformed
         jPanel1.setGra(jPanel1.getGraphics());
         jPanel1.setG2();
         jPanel1.zeraPanel(jPanel1, Color.WHITE);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jLimparActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        jNumSimulados.setVisible(true);
+    private void jSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSimularActionPerformed
+        boolean pode = true;
+        int tempo = 75;
         try {
-            int vezes = Integer.parseInt(jVezesSimular.getText());
-            for (int i = 0; i < vezes; i++) {
-                jNumSimulados.setText(String.valueOf(i) + " vezes simulados");
-                jPanel1.comecaBatalha(op1);
-                try {
-                    sleep(60);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(TelaGrid.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            jNumSimulados.setVisible(false);
+            tempo = Integer.parseInt(jTempo.getText());
+            pode = true;
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Número de vezes deve ser um número inteiro! " + ex, "Aviso!", 0);
+            pode = false;
+            JOptionPane.showMessageDialog(null, "Tempo deve ser um número inteiro!", "Aviso!", 0);
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+        if (pode) {
+            try {
+                Tile.k = 0;
+                int vezes = Integer.parseInt(jVezesSimular.getText());
+                for (int i = 0; i < vezes; i++) {
+                    jPanel1.comecaBatalha(op1);
+                    try {
+                        sleep(tempo);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(TelaGrid.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Número de vezes deve ser um número inteiro! " + ex, "Aviso!", 0);
+            }
+        }
+    }//GEN-LAST:event_jSimularActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        op1 = false;
-        jPanel1.desenhaGrid(jPanel1, op1);
-
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void jGerarSeparadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGerarSeparadoActionPerformed
+        if (jPanel1.getTileHeight() != 0 && jPanel1.getTileWidth() != 0) {
+            jPanel1.setGra(jPanel1.getGraphics());
+            jPanel1.setG2();
+            op1 = false;
+            Tile.k = 1;
+            jPanel1.desenhaGrid(jPanel1, op1);
+        }
+    }//GEN-LAST:event_jGerarSeparadoActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         //gerar mapa
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSalvarActionPerformed
+        BufferedImage imagem = null;
+        try {
+            //        BufferedImage imagem = new BufferedImage(jPanel1.getWidth(),jPanel1.getHeight(),BufferedImage.TYPE_INT_ARGB);
+//        Graphics g = imagem.getGraphics();
+//        jPanel1.paint(g);
+//        try{
+//            ImageIO.write(imagem, "png",new File("ImagemTile.png"));
+//        }catch(Exception ex){
+//            //Logger.getLogger(CustomApp.class.getName()).log(Level.SEVERE,null,ex));
+//            System.out.println("Deu ruim");
+//        }
+            Point ponto = new Point();
+            ponto.setLocation(jPanel1.getLocation());
+            Rectangle img = new Rectangle((int) ponto.getX(), (int) ponto.getY(), jPanel1.getWidth(), jPanel1.getHeight());
+            imagem = new Robot().createScreenCapture(img);
+        } catch (AWTException ex) {
+            Logger.getLogger(TelaGrid.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ImageIO.write(imagem, "png", new File("ImagemTile.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(TelaGrid.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -745,13 +821,11 @@ public class TelaGrid extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JSlider jEscala;
+    private javax.swing.JButton jGerarAleatorio;
+    private javax.swing.JButton jGerarSeparado;
     private javax.swing.JTextField jHorizontal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -761,6 +835,7 @@ public class TelaGrid extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -769,7 +844,7 @@ public class TelaGrid extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jNumSimulados;
+    private javax.swing.JButton jLimpar;
     /*
     private javax.swing.JPanel jPanel1;
     */
@@ -779,6 +854,9 @@ public class TelaGrid extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JButton jPinturaPropria;
+    private javax.swing.JButton jSalvar;
+    private javax.swing.JButton jSimular;
+    private javax.swing.JTextField jTempo;
     private javax.swing.JTextField jVEscala;
     private javax.swing.JTextField jVertical;
     private javax.swing.JTextField jVezesSimular;

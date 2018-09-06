@@ -5,6 +5,7 @@
  */
 package testestile;
 
+import java.util.Scanner;
 import telas.TelaGrid;
 
 /**
@@ -17,9 +18,26 @@ public class TestesTile {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        TelaGrid til = new TelaGrid();
-        til.setLocationRelativeTo(null);
-        til.setVisible(true);
+//        boolean cont = true;
+//        while (cont) {
+//            try {
+//                System.out.println("Escolha a opção 1 - testes1  2 - testes avançados");
+//                Scanner scan = new Scanner(System.in);
+//                int i = scan.nextInt();
+//                if (i == 1 || i == 2) {
+//                    cont = false;
+//                    if (i == 1) {
+                        TelaGrid til = new TelaGrid();
+                        til.setLocationRelativeTo(null);
+                        til.setVisible(true);
+//                    } else {
+//                        //TODO chamar a tela que gera um mapa
+//                    }
+//                }
+//            } catch (Exception ex) {
+//                System.out.println("Digite apenas os valores possíveis");
+//            }
+//        }
     }
-    
+
 }
