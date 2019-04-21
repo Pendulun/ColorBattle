@@ -400,7 +400,7 @@ public class Tile extends JPanel {
             System.out.println("2.1");
             for (int x = 0; x < nH; x++) {
                 for (int y = 0; y < nV; y++) {
-                    matrizmapa[x][y] = (int) (Math.random() * 12);
+                    matrizmapa[x][y] = (int) (Math.random() * 11);
                 }
             }
             //se "a" é false ele pinta tudo de branco e gera lugares aleatórios

@@ -35,7 +35,7 @@ public class TelaGrid extends javax.swing.JFrame {
         jPanel1.setG2();
         jPanel1.zeraPanel(jPanel1, Color.WHITE);
         jSalvar.setVisible(false);
-        jGerarAleatorio.setVisible(false);
+       // jGerarAleatorio.setVisible(false);
     }
 
     boolean pintura = false, op1 = true;
