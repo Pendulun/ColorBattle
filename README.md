@@ -1,4 +1,4 @@
-# justafleshwound
+# Color Battle
 This is a program that I did not finish but it is still somewhat cool just to watch. It's purpuse it to see how many teams of different colors react when put in a map with bonuses like attack or defense.<br><br>
 First you have to set the width and height of the rectangles representing each dot on the screen at horizontal and vertical fields and then click at the "Atualizar"(update) button.<br><br>
 Second you can click at the "Gerar"(generate) button to randomly paint each square at the screen with one color. You may notice some stable green and blue dots, they represent the attack and defense bonuses for each team.<br><br>
